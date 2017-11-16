@@ -85,7 +85,9 @@ namespace ElevenNote.Web.Controllers
                 return View(model);
             }
 
-            if(!ModelState.IsValid) return View(model);
+            TempData["SaveResult"] = "Your note was edited.";
+
+            if (!ModelState.IsValid) return View(model);
 
 
             if(!CreateNoteService().UpdateNote(model))
@@ -93,6 +95,8 @@ namespace ElevenNote.Web.Controllers
                 ModelState.AddModelError("","Unable to update note");
                 return View(model);
             }
+
+            TempData[".SaveResult"] = "Your note was saved! Praise be!";
 
             return RedirectToAction("Index");
         }
@@ -111,6 +115,8 @@ namespace ElevenNote.Web.Controllers
         public ActionResult DeletePost(int id)
         {
             CreateNoteService().DeleteNote(id);
+
+            TempData["SaveResult"] = "Your note was deleted.";
 
             return RedirectToAction("Index");
         }
